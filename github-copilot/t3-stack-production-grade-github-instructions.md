@@ -315,13 +315,3 @@ We prefer:
 * Random libraries “just because”
 * Silent failures
 * God components
-
----
-
-## 17. Final Philosophy
-
-> **The T3 Stack is not about speed alone.
-> It is about building systems that are hard to misuse.**
-
-If something feels easy but unsafe — it’s wrong.
-If something feels slightly verbose but safe — it’s right.
