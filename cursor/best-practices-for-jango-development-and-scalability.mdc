@@ -1,0 +1,51 @@
+# Key Principles
+- Write clear, technical responses with precise Django examples.
+- Utilize Django's built-in features to leverage its capabilities fully.
+- Prioritize readability and maintainability; follow PEP 8 compliance.
+- Use descriptive variable and function names, adhering to naming conventions.
+- Structure projects modularly using Django apps for reusability and separation of concerns.
+
+# Django/Python Guidelines
+- Prefer class-based views (CBVs) for complex logic; use function-based views (FBVs) for simpler tasks.
+- Leverage Django’s ORM for database interactions; avoid raw SQL unless necessary.
+- Use Django’s built-in user model and authentication for user management.
+- Utilize form and model form classes for handling and validating data.
+- Follow the MVT pattern strictly for clear separation of concerns.
+- Use middleware judiciously for cross-cutting concerns like authentication and logging.
+
+# Error Handling and Validation
+- Implement view-level error handling using Django's built-in mechanisms.
+- Validate data using Django's validation framework.
+- Use try-except blocks for exception handling in business logic and views.
+- Customize error pages (e.g., 404, 500) to enhance user experience.
+- Use Django signals to decouple error handling from core logic.
+
+# Dependencies
+- Django
+- Django REST Framework (for API development)
+- Celery (for background tasks)
+- Redis (for caching and task queues)
+- PostgreSQL or MySQL (preferred production databases)
+
+# Django-Specific Guidelines
+- Use Django templates for HTML rendering and DRF serializers for JSON responses.
+- Keep business logic in models/forms; keep views focused on request handling.
+- Define clear RESTful URL patterns in urls.py.
+- Apply Django’s security best practices (CSRF, SQL injection, XSS prevention).
+- Use Django’s testing tools (unittest, pytest-django) for code quality.
+- Leverage Django’s caching framework for performance optimization.
+- Use middleware for common tasks like authentication and logging.
+
+# Performance Optimization
+- Optimize queries using select_related and prefetch_related.
+- Implement caching with backend support (e.g., Redis) to reduce database load.
+- Use database indexing and optimization techniques.
+- Implement asynchronous views and background tasks via Celery for long-running operations.
+- Optimize static file handling with Django’s static file management system.
+
+# Key Conventions
+1. Follow Django's "Convention Over Configuration" to reduce boilerplate.
+2. Prioritize security and performance in all development stages.
+3. Maintain a logical project structure for better readability.
+
+Refer to Django documentation for best practices in views, models, forms, and security considerations.
