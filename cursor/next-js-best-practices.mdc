@@ -1,0 +1,119 @@
+## You are an AI coding agent working in a Next.js repo.
+
+### Core principles
+- Default to **App Router** patterns when the repo uses `/app`. If the repo is `/pages`, follow existing conventions and avoid large migrations.
+- Optimize for **performance, correctness, and small diffs**.
+- Prefer **server-first** rendering and keep the **client boundary** as small as possible.
+- When making a choice (SSR/SSG/ISR/caching), be explicit and briefly explain tradeoffs.
+
+---
+
+## Rule 1 — Server Components by default (App Router)
+- Treat components in `/app` as **Server Components** unless client-only needs exist.
+- Only add `"use client"` when you need:
+  - React hooks (`useState`, `useEffect`, etc.)
+  - Browser-only APIs (`window`, `localStorage`)
+  - Event handlers (`onClick`, `onChange`)
+- If you add `"use client"`, keep it **as deep as possible** (smallest component boundary) and add a 1-line reason.
+
+---
+
+## Rule 2 — Avoid data waterfalls (critical)
+- Do not fetch data sequentially if calls are independent.
+- Prefer `Promise.all()` for parallel fetches.
+- If sequential fetches are required, explain why (dependency, rate limit, etc.).
+
+---
+
+## Rule 3 — Prefer server-side data fetching
+- In App Router, prefer fetching in:
+  - Server Components
+  - Route Handlers (`/app/api/.../route.ts`)
+  - Server Actions (when appropriate)
+- Avoid server→HTTP→server calls (don’t call your own internal API over HTTP from the server if you can call the underlying function directly).
+
+---
+
+## Rule 4 — Be explicit about caching (no surprises)
+For each server-side `fetch`, choose deliberately:
+- User-specific / sensitive → `cache: "no-store"`
+- Public-ish / can be slightly stale → `next: { revalidate: <seconds> }`
+- Do not rely on implicit defaults unless you understand the impact.
+
+### Caching guardrails
+- Never cache user-specific responses.
+- Never expose secrets to the client.
+- If repo uses tag revalidation, apply stable, consistent tags.
+
+---
+
+## Rule 5 — Choose the right rendering strategy
+Use this heuristic:
+- **SSG**: content changes rarely, safe to cache widely
+- **ISR**: content changes sometimes, staleness acceptable
+- **SSR**: user-specific or highly dynamic data
+- **CSR**: SEO irrelevant + interaction-heavy; avoid for primary pages
+
+### App Router note
+- Static vs dynamic behavior depends on `fetch` caching and `revalidate`.
+- Only force `dynamic = "force-dynamic"` / `"force-static"` when necessary—and explain why.
+
+---
+
+## Rule 6 — Keep client bundles lean (critical)
+- Don’t import heavy libraries into client components unless needed.
+- Prefer dynamic import for expensive client-only widgets.
+- Avoid pushing large constants/objects into client code.
+
+---
+
+## Rule 7 — Use Next.js primitives
+- Images: use `next/image` with correct sizing and meaningful `alt`.
+- Fonts: use `next/font` (avoid layout shift).
+- Navigation: use `next/link` for internal links.
+- Prefer built-in route patterns (`error.tsx`, `loading.tsx`, `not-found.tsx`) where relevant.
+
+---
+
+## Rule 8 — Handle errors and UX states intentionally
+- Do not swallow errors.
+- Use:
+  - `error.tsx` for route-level error boundary
+  - `not-found.tsx` for 404 states
+  - `loading.tsx` for route loading UX (when useful)
+- Return correct status codes from APIs (`400/401/403/404/500`).
+
+---
+
+## Rule 9 — Security & auth (server enforcement)
+- Validate all external inputs (query/body/params).
+- Enforce authorization on the server (Route Handlers / Server Actions).
+- Do not leak secrets to the client.
+- Avoid open redirects: validate return URLs.
+
+---
+
+## Rule 10 — TypeScript quality
+- Prefer TypeScript for new files.
+- Avoid `any`; use `unknown` and narrow.
+- Keep components small and readable; avoid unnecessary abstractions.
+
+---
+
+## Rule 11 — If requirements are unclear
+Default to:
+- Server rendering + explicit caching
+- Minimal client logic
+- Smallest possible diff
+Add 1–2 lines explaining assumptions.
+
+---
+
+## Quick self-check before finalizing
+- Did I avoid `"use client"` at the page/layout level?
+- Did I prevent data waterfalls?
+- Did I explicitly set caching for server fetches?
+- Did I avoid caching user-specific data?
+- Did I keep client bundles small?
+- Did I add loading/error/not-found states where appropriate?
+- Did I avoid server→HTTP→server calls inside the same app?
