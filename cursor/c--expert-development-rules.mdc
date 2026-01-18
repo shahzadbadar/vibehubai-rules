@@ -1,0 +1,132 @@
+---
+name: csharp-expert-rules
+description: Comprehensive C# development guidelines for modern .NET applications
+tags: ["csharp", ".net", "best-practices", "async", "linq", "patterns"]
+---
+
+You are an expert C# developer specializing in modern .NET development, clean code architecture, and performance optimization.
+
+## Code Style & Conventions
+
+- Always use `var` for local variable type inference when the type is obvious from the right-hand side
+- Prefer `string` over `String` (use lowercase for type aliases)
+- Use PascalCase for public members, methods, properties, and classes
+- Use camelCase for private fields, local variables, and parameters
+- Prefix private fields with underscore: `_fieldName`
+- Use meaningful names that describe intent, not implementation details
+- Always use braces `{}` for control flow statements, even single-line blocks
+- Place opening braces on the same line (K&R style)
+- Use `nameof()` instead of string literals for property/parameter names
+- Prefer expression-bodied members for simple single-line methods/properties
+
+## Modern C# Features
+
+- Prefer `record` types for immutable data transfer objects (DTOs)
+- Use `init` accessors for immutable properties
+- Leverage pattern matching with `switch` expressions
+- Use nullable reference types (`string?`) and handle nullability explicitly
+- Prefer `Span<T>` and `Memory<T>` for high-performance scenarios
+- Use `IAsyncEnumerable<T>` for async streaming operations
+- Leverage `System.Text.Json` over `Newtonsoft.Json` for new projects
+- Use file-scoped namespaces (`namespace MyApp;`) in C# 10+
+
+## Async/Await Best Practices
+
+- Always use `async`/`await` instead of `.Result` or `.Wait()` to avoid deadlocks
+- Use `ConfigureAwait(false)` in library code to avoid unnecessary context captures
+- Prefer `Task<T>` over `Task` when a return value is available
+- Use `ValueTask<T>` for hot paths where the result is often synchronously available
+- Never use `async void` except for event handlers
+- Use `CancellationToken` parameters in async methods to support cancellation
+- Prefer `Task.WhenAll()` over sequential awaits when operations are independent
+- Use `IAsyncDisposable` for async cleanup operations
+
+## LINQ & Collections
+
+- Prefer LINQ methods over loops when the intent is clearer
+- Use `FirstOrDefault()` instead of `First()` when the item might not exist
+- Prefer `Any()` over `Count() > 0` for existence checks
+- Use `Select()` and `Where()` for transformations and filtering
+- Avoid multiple enumerations of `IEnumerable<T>` - materialize with `.ToList()` or `.ToArray()` if needed multiple times
+- Use `IReadOnlyList<T>` and `IReadOnlyCollection<T>` for immutable collections
+- Prefer `ImmutableArray<T>` or `ImmutableList<T>` for truly immutable collections
+
+## Error Handling
+
+- Use specific exception types rather than generic `Exception`
+- Create custom exceptions when appropriate, inheriting from `Exception` or `ApplicationException`
+- Always include meaningful error messages and context
+- Use `throw;` (not `throw ex;`) to preserve stack traces when rethrowing
+- Prefer `Result<T>` or `Option<T>` patterns over exceptions for expected failures
+- Use `try-finally` or `using` statements for resource cleanup
+- Log exceptions at the appropriate level with full context
+
+## Dependency Injection & Architecture
+
+- Use constructor injection for dependencies (prefer required dependencies)
+- Register services with appropriate lifetimes: `Singleton`, `Scoped`, or `Transient`
+- Prefer interfaces over concrete classes for dependencies
+- Use `IServiceProvider` sparingly - prefer explicit dependencies
+- Follow SOLID principles, especially Single Responsibility and Dependency Inversion
+- Use MediatR for CQRS patterns when appropriate
+- Implement repository pattern for data access abstraction
+
+## Performance & Memory
+
+- Use `StringBuilder` for string concatenation in loops
+- Prefer `StringComparison.Ordinal` or `OrdinalIgnoreCase` for string comparisons
+- Use `ArrayPool<T>` for temporary arrays in hot paths
+- Avoid unnecessary allocations - use structs for small, frequently created objects
+- Profile before optimizing - measure, don't guess
+- Use `Memory<T>` and `Span<T>` for zero-allocation scenarios
+- Prefer `ReadOnlySpan<T>` for read-only operations
+
+## Testing
+
+- Write unit tests for business logic and critical paths
+- Use descriptive test names: `MethodName_Scenario_ExpectedBehavior()`
+- Follow AAA pattern: Arrange, Act, Assert
+- Use mocking frameworks (Moq, NSubstitute) for dependencies
+- Prefer test doubles (fakes, stubs) over mocks when possible
+- Write integration tests for API endpoints and database operations
+- Use `[Theory]` and `[InlineData]` for parameterized tests in xUnit
+
+## Entity Framework Core
+
+- Use `IQueryable<T>` for database queries, materialize with `.ToListAsync()` when needed
+- Avoid N+1 queries - use `.Include()` or projection queries
+- Use `.AsNoTracking()` for read-only queries to improve performance
+- Prefer explicit loading over lazy loading
+- Use value converters for complex types
+- Use owned entities for value objects
+- Configure relationships explicitly in `OnModelCreating()`
+
+## API Development
+
+- Use minimal APIs for simple endpoints, controllers for complex scenarios
+- Return appropriate HTTP status codes (200, 201, 204, 400, 404, 500)
+- Use `ActionResult<T>` for typed responses
+- Validate input with `DataAnnotations` or FluentValidation
+- Use `[FromBody]`, `[FromQuery]`, `[FromRoute]` attributes explicitly
+- Implement proper error handling middleware
+- Use `ProblemDetails` for standardized error responses
+
+## Security
+
+- Never log sensitive information (passwords, tokens, PII)
+- Use parameterized queries to prevent SQL injection
+- Validate and sanitize all user input
+- Use `[Authorize]` attributes for protected endpoints
+- Implement rate limiting for public APIs
+- Use HTTPS in production
+- Store secrets in configuration providers (Azure Key Vault, etc.)
+
+## Code Organization
+
+- Keep classes focused and small (single responsibility)
+- Use partial classes for code generation scenarios
+- Organize namespaces to match folder structure
+- Group related functionality into modules/features
+- Use regions sparingly - prefer better organization
+- Keep methods short and focused (ideally < 20 lines)
+- Extract complex logic into well-named private methods
