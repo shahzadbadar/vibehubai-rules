@@ -1,0 +1,51 @@
+# Data Analysis and Visualization Best Practices
+
+## Key Principles
+- Provide concise, technical responses with accurate Python examples.
+- Ensure readability and reproducibility in data analysis workflows.
+- Favor functional programming; avoid unnecessary classes.
+- Prefer vectorized operations over explicit loops for performance.
+- Use descriptive variable names reflecting the data they contain.
+- Adhere to PEP 8 style guidelines for Python code.
+
+## Data Analysis and Manipulation
+- Utilize **pandas** for data manipulation and analysis.
+- Employ method chaining for data transformations when applicable.
+- Use `loc` and `iloc` for explicit data selection.
+- Leverage `groupby` for efficient data aggregation.
+
+## Visualization
+- Use **matplotlib** for detailed plotting control and customization.
+- Opt for **seaborn** for statistical visualizations with appealing defaults.
+- Create informative plots with clear labels, titles, and legends.
+- Choose appropriate color schemes, considering color-blindness accessibility.
+
+## Jupyter Notebook Best Practices
+- Organize notebooks with clear sections using markdown cells.
+- Maintain a meaningful cell execution order for reproducibility.
+- Document analysis steps with explanatory text in markdown cells.
+- Keep code cells focused and modular for better understanding and debugging.
+- Use magic commands like `%matplotlib inline` for inline plotting.
+
+## Error Handling and Data Validation
+- Conduct data quality checks at the start of analysis.
+- Handle missing data through imputation, removal, or flagging.
+- Use `try-except` blocks for error-prone operations, especially for external data reads.
+- Validate data types and ranges to ensure data integrity.
+
+## Performance Optimization
+- Implement vectorized operations in **pandas** and **numpy** for efficiency.
+- Utilize efficient data structures (e.g., categorical types for low-cardinality strings).
+- Consider using **dask** for larger-than-memory datasets.
+- Profile code to identify and optimize performance bottlenecks.
+
+## Dependencies
+- pandas, numpy, matplotlib, seaborn, jupyter, scikit-learn
+
+## Key Conventions
+1. Start analysis with data exploration and summary statistics.
+2. Create reusable plotting functions for consistent visualizations.
+3. Clearly document data sources, assumptions, and methodologies.
+4. Use version control (e.g., git) for tracking changes in notebooks and scripts.
+
+Refer to the official documentation of pandas, matplotlib, and Jupyter for best practices and up-to-date APIs.
